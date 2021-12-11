@@ -86,7 +86,7 @@ public class Day3 {
 				if (values.size() == 1) {
 					break;
 				}
-				List<Character> remainingValues = values.stream().map(o -> o.charAt(column.getKey())).collect(Collectors.toList());
+				List<Character> remainingValues = values.stream().map(o -> o.charAt(column.getKey())).toList();
 				long oneCount = remainingValues.stream().filter(c -> c == '1').count();
 				if (oneCount * 2 >= remainingValues.size()) {
 					values = values.stream().filter(line -> line.charAt(column.getKey()) == (takeZeroWhenMoreOrSameOnes ? '0' : '1')).collect(Collectors.toList());

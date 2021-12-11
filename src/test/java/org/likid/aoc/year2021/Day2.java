@@ -15,7 +15,7 @@ public class Day2 {
 	public void should_day2() throws IOException {
 		System.out.println("day 2");
 		List<String> movesInput = Util.readFileAsString("classpath:year2021/day2/input");
-		List<Move> moves = movesInput.stream().map(Move::new).collect(Collectors.toList());
+		List<Move> moves = movesInput.stream().map(Move::new).toList();
 
 		Submarine submarine = new Submarine();
 		moves.forEach(submarine::move);

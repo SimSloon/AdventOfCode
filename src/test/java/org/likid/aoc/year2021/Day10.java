@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class Day10 {
 
     @Test
-    public void should_day9() throws IOException {
+    public void should_day10() throws IOException {
         System.out.println("day 10");
         List<String> inputs = Util.readFileAsString("classpath:year2021/day10/input");
 
