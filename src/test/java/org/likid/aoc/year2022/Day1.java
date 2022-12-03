@@ -12,16 +12,16 @@ import java.util.List;
 
 public class Day1 {
 
-    private static final List<Elve> elves = new ArrayList<>();
+    private static final List<Elve> ELVES = new ArrayList<>();
 
     @BeforeAll
-    public static void mapElves() throws IOException {
+    public static void map() throws IOException {
         List<String> weights = Util.readFileAsString("classpath:year2022/day1/input");
 
         Elve elve = new Elve();
         for (String weight : weights) {
             if (StringUtils.isBlank(weight)) {
-                elves.add(elve);
+                ELVES.add(elve);
                 elve = new Elve();
             } else {
                 elve.addWeight(weight);
@@ -33,7 +33,7 @@ public class Day1 {
     public void should_day1_ex1() {
         System.out.println("day 1 ex 1");
 
-        Elve topCarryingElve = elves.stream()
+        Elve topCarryingElve = ELVES.stream()
                 .max(Comparator.comparing(Elve::getCumulatedWeight))
                 .orElseThrow();
 
@@ -45,7 +45,7 @@ public class Day1 {
     public void should_day1_ex2() {
         System.out.println("day 1 ex 2");
 
-        long top3CarryWeight = elves.stream()
+        long top3CarryWeight = ELVES.stream()
                 .sorted(Comparator.comparing(Elve::getCumulatedWeight).reversed())
                 .limit(3)
                 .mapToLong(Elve::getCumulatedWeight)
