@@ -14,37 +14,37 @@ import java.util.stream.Collectors;
 
 public class Util {
 
-	public static List<String> readFileAsString(String filePath) throws IOException {
-		File file = ResourceUtils.getFile(filePath);
-		BufferedReader reader = Files.newBufferedReader(file.toPath());
-		return reader.lines().collect(Collectors.toList());
-	}
+    public static List<String> readFileAsString(String filePath) throws IOException {
+        File file = ResourceUtils.getFile(filePath);
+        BufferedReader reader = Files.newBufferedReader(file.toPath());
+        return reader.lines().collect(Collectors.toList());
+    }
 
-	public static List<Long> readFileAsLongs(String filePath) throws IOException {
-		File file = ResourceUtils.getFile(filePath);
-		BufferedReader reader = Files.newBufferedReader(file.toPath());
-		return reader.lines().map(Long::parseLong).collect(Collectors.toList());
-	}
+    public static List<Long> readFileAsLongs(String filePath) throws IOException {
+        File file = ResourceUtils.getFile(filePath);
+        BufferedReader reader = Files.newBufferedReader(file.toPath());
+        return reader.lines().map(Long::parseLong).collect(Collectors.toList());
+    }
 
-	public static Long[] readFileAsLongsArray(String filePath) throws IOException {
-		File file = ResourceUtils.getFile(filePath);
-		BufferedReader reader = Files.newBufferedReader(file.toPath());
-		return reader.lines().map(Long::parseLong).collect(Collectors.toList()).toArray(Long[]::new);
-	}
+    public static Long[] readFileAsLongsArray(String filePath) throws IOException {
+        File file = ResourceUtils.getFile(filePath);
+        BufferedReader reader = Files.newBufferedReader(file.toPath());
+        return reader.lines().map(Long::parseLong).collect(Collectors.toList()).toArray(Long[]::new);
+    }
 
 
-	public static JsonNode readFileAsJson(String filePath) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
+    public static JsonNode readFileAsJson(String filePath) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
 
-		//JSON file to Java object
-		return mapper.readTree(ResourceUtils.getFile(filePath));
-	}
+        //JSON file to Java object
+        return mapper.readTree(ResourceUtils.getFile(filePath));
+    }
 
-	public static long sum(String number, String number2) {
-		return BigDecimal.valueOf(Long.parseLong(number)).add(BigDecimal.valueOf(Long.parseLong(number2))).longValue();
-	}
+    public static long sum(String number, String number2) {
+        return BigDecimal.valueOf(Long.parseLong(number)).add(BigDecimal.valueOf(Long.parseLong(number2))).longValue();
+    }
 
-	public static long multiply(String number, String number2) {
-		return BigDecimal.valueOf(Long.parseLong(number)).multiply(BigDecimal.valueOf(Long.parseLong(number2))).longValue();
-	}
+    public static long multiply(String number, String number2) {
+        return BigDecimal.valueOf(Long.parseLong(number)).multiply(BigDecimal.valueOf(Long.parseLong(number2))).longValue();
+    }
 }
