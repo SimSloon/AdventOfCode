@@ -24,8 +24,7 @@ class Day1Test {
 
         long result = DATA.stream()
                 .map(Day1Test::keepOnlyDigits)
-                .map(Day1Test::extractFirstAndLastDigit)
-                .mapToLong(Long::parseLong)
+                .mapToLong(Day1Test::extractFirstAndLastDigit)
                 .sum();
 
         System.out.println("result : " + result);
@@ -40,8 +39,7 @@ class Day1Test {
         long result = DATA.stream()
                 .map(Day1Test::replaceLiteralDigitsWithDigits)
                 .map(Day1Test::keepOnlyDigits)
-                .map(Day1Test::extractFirstAndLastDigit)
-                .mapToLong(Long::parseLong)
+                .mapToLong(Day1Test::extractFirstAndLastDigit)
                 .sum();
 
         System.out.println("result : " + result);
@@ -65,8 +63,8 @@ class Day1Test {
         return line.replaceAll("\\D", "");
     }
 
-    private static String extractFirstAndLastDigit(String val) {
+    private static Long extractFirstAndLastDigit(String val) {
         String[] split = val.split("");
-        return split[0] + split[split.length - 1];
+        return Long.valueOf(split[0] + split[split.length - 1]);
     }
 }
