@@ -68,7 +68,7 @@ class Day2Test {
         public long getPower() {
             return Arrays.stream(COLOR.values())
                     .map(this::highestCubeNbInRound)
-                    .reduce(1L, (nbCubeOfColor1, nbCubeOfColor2) -> nbCubeOfColor1 * nbCubeOfColor2);
+                    .reduce(1L, Math::multiplyExact);
         }
 
         private long highestCubeNbInRound(COLOR color) {
