@@ -25,9 +25,7 @@ class Day3Test {
         int lineCount = data.size();
 
         for (int i = 0; i < lineCount; i++) {
-            String prevLine = null;
-            String currLine = data.get(i);
-            String nextLine = null;
+            String prevLine = null, nextLine = null, currLine = data.get(i);
             if (i > 0) {
                 prevLine = data.get(i - 1);
             }
@@ -60,8 +58,7 @@ class Day3Test {
         System.out.println("day 3 ex 2");
 
         long result = PARSED_LINES.stream()
-                .map(ParsedLine::getSumOfGearRatio)
-                .mapToLong(Long::valueOf)
+                .mapToLong(ParsedLine::getSumOfGearRatio)
                 .sum();
 
         System.out.println("result : " + result);
