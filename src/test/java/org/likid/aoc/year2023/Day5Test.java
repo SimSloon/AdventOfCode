@@ -1,15 +1,13 @@
 package org.likid.aoc.year2023;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.likid.aoc.util.Util;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.LongStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,7 +28,7 @@ class Day5Test {
                 currentSection = ALMANAC.createSection();
             } else if (!StringUtils.isBlank(currentLine)) {
                 String[] ranges = currentLine.split(" ");
-                currentSection.addRange(Range.from(Long.parseLong(ranges[0]), Long.parseLong(ranges[1]), Long.parseLong(ranges[2])));
+                currentSection.addRange(Transformation.from(Long.parseLong(ranges[0]), Long.parseLong(ranges[1]), Long.parseLong(ranges[2])));
             }
         }
     }
@@ -51,6 +49,8 @@ class Day5Test {
         System.out.println("day 5 ex 2");
 
         long result = ALMANAC.lowestLocationForSeedRange();
+
+//        long result = ALMANAC.lowestLocationForSeedRangeSmart();
 
         System.out.println("result : " + result);
 
@@ -101,36 +101,67 @@ class Day5Test {
             }
             return result;
         }
+
+        public long lowestLocationForSeedRangeSmart() {
+            long lowest = Long.MAX_VALUE;
+            for (int i = 0; i < seedsIds.size(); i = i + 2) {
+                Range range = new Range(seedsIds.get(i), seedsIds.get(i) + seedsIds.get(i + 1));
+                for (Section section : sections) {
+                    List<Range> ranges = section.compute(range);
+                    lowest = Math.min(lowest, ranges.stream().sorted(Comparator.comparing(Range::sourceRangeStart)).mapToLong(r -> r.sourceRangeStart).min().orElseThrow());
+                }
+            }
+            return lowest;
+        }
     }
 
-    record Section(List<Range> ranges) {
+    record Section(List<Transformation> transformations) {
 
         public static Section create() {
             return new Section(new ArrayList<>());
         }
 
-        public void addRange(Range range) {
-            this.ranges.add(range);
+        public void addRange(Transformation transformation) {
+            this.transformations.add(transformation);
         }
 
         public long compute(long seed) {
-            for (Range range : ranges) {
+            for (Transformation transformation : transformations) {
                 long currSeed = seed;
-                seed = range.compute(seed);
+                seed = transformation.compute(seed);
                 if (currSeed != seed) {
                     break;
                 }
             }
             return seed;
         }
+
+        public List<Range> compute(Range range) {
+            List<Range> matchedRanges = new ArrayList<>();
+            List<Range> noMatchedRanges = new ArrayList<>();
+            noMatchedRanges.add(range);
+            for (Transformation transformation : transformations) {
+                Pair<Optional<Range>, List<Range>> compute = null;
+                for (Range noMatchedRange : noMatchedRanges) {
+                    compute = transformation.compute(noMatchedRange);
+                    compute.getLeft().ifPresent(matchedRanges::add);
+                }
+                if (compute != null) {
+                    noMatchedRanges = compute.getRight();
+                }
+
+            }
+            matchedRanges.addAll(noMatchedRanges);
+            return matchedRanges;
+        }
     }
 
-    record Range(long sourceRangeStart,
-                 long sourceRangeEnd,
-                 long offset) {
+    record Transformation(long sourceRangeStart,
+                          long sourceRangeEnd,
+                          long offset) {
 
-        public static Range from(long destinationRangeStart, long sourceRangeStart, long rangeLength) {
-            return new Range(sourceRangeStart, sourceRangeStart + rangeLength, destinationRangeStart - sourceRangeStart);
+        public static Transformation from(long destinationRangeStart, long sourceRangeStart, long rangeLength) {
+            return new Transformation(sourceRangeStart, sourceRangeStart + rangeLength, destinationRangeStart - sourceRangeStart);
         }
 
         public long compute(long seed) {
@@ -139,5 +170,37 @@ class Day5Test {
             }
             return seed;
         }
+
+        public Pair<Optional<Range>, List<Range>> compute(Range range) {
+
+            List<Range> ranges = new ArrayList<>();
+            long nextRangeStart = range.sourceRangeStart;
+            long nextRangeEnd = range.sourceRangeEnd;
+            Range matchedRange;
+            if (nextRangeStart >= sourceRangeStart && nextRangeEnd < sourceRangeEnd) {
+                nextRangeStart+=offset;
+                nextRangeEnd+=offset;
+                matchedRange = new Range(nextRangeStart, nextRangeEnd);
+                return Pair.of(Optional.of(matchedRange), List.of());
+            }
+
+            if (nextRangeStart < sourceRangeStart && nextRangeEnd < sourceRangeStart) {
+                ranges.add(new Range(nextRangeStart, nextRangeEnd));
+            } else if(nextRangeStart < sourceRangeStart) {
+                ranges.add(new Range(nextRangeStart, range.sourceRangeStart));
+                ranges.add(new Range(range.sourceRangeStart, nextRangeEnd));
+            } else if (nextRangeStart < sourceRangeEnd && nextRangeEnd > sourceRangeEnd) {
+                ranges.add(new Range(nextRangeStart, range.sourceRangeEnd));
+                ranges.add(new Range(range.sourceRangeEnd, nextRangeEnd));
+            } else {
+                ranges.add(new Range(nextRangeStart, nextRangeEnd));
+            }
+            return Pair.of(Optional.empty(), ranges);
+        }
+    }
+
+    record Range(long sourceRangeStart,
+                 long sourceRangeEnd) {
+
     }
 }
