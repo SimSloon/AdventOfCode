@@ -21,12 +21,12 @@ class Day5Test {
         List<String> data = Util.readFileAsString("classpath:year2023/day5/input");
 
         ALMANAC = Almanac.from(Arrays.stream(data.get(0).split("seeds: ")[1].split(" ")).map(Long::parseLong).toList());
-        Section currentSection = ALMANAC.createSection();
+        Section currentSection = null;
         for (int i = 2; i < data.size(); i++) {
             String currentLine = data.get(i);
             if (currentLine.contains("map:")) {
                 currentSection = ALMANAC.createSection();
-            } else if (!StringUtils.isBlank(currentLine)) {
+            } else if (!StringUtils.isBlank(currentLine) && currentSection != null) {
                 String[] ranges = currentLine.split(" ");
                 currentSection.addRange(Transformation.from(Long.parseLong(ranges[0]), Long.parseLong(ranges[1]), Long.parseLong(ranges[2])));
             }
@@ -48,9 +48,7 @@ class Day5Test {
     void should_day5_ex2() {
         System.out.println("day 5 ex 2");
 
-        long result = ALMANAC.lowestLocationForSeedRange();
-
-//        long result = ALMANAC.lowestLocationForSeedRangeSmart();
+        long result = ALMANAC.lowestLocationForSeedRangeSmart();
 
         System.out.println("result : " + result);
 
@@ -73,25 +71,8 @@ class Day5Test {
             return lowestLocation(seedsIds);
         }
 
-        public long lowestLocationForSeedRange() {
-            long lowestLocation = Long.MAX_VALUE;
-            for (int i = 0; i < seedsIds.size(); i = i + 2) {
-                lowestLocation = Math.min(lowestLocation, lowestLocationForSeedRange(seedsIds.get(i), seedsIds.get(i + 1)));
-            }
-            return lowestLocation;
-        }
-
         private long lowestLocation(List<Long> seeds) {
             return seeds.stream().mapToLong(this::computeSections).min().orElseThrow();
-        }
-
-        private long lowestLocationForSeedRange(long start, long range) {
-            return LongStream.range(start, start + range)
-                    .parallel()
-                    .map(this::computeSections)
-                    .boxed()
-                    .min(Long::compareTo)
-                    .orElseThrow();
         }
 
         private long computeSections(long seed) {
@@ -106,10 +87,11 @@ class Day5Test {
             long lowest = Long.MAX_VALUE;
             for (int i = 0; i < seedsIds.size(); i = i + 2) {
                 Range range = new Range(seedsIds.get(i), seedsIds.get(i) + seedsIds.get(i + 1));
+                List<Range> nextRanges = List.of(range);
                 for (Section section : sections) {
-                    List<Range> ranges = section.compute(range);
-                    lowest = Math.min(lowest, ranges.stream().sorted(Comparator.comparing(Range::sourceRangeStart)).mapToLong(r -> r.sourceRangeStart).min().orElseThrow());
+                    nextRanges = section.compute(nextRanges);
                 }
+                lowest = Math.min(lowest, nextRanges.stream().sorted(Comparator.comparing(Range::sourceRangeStart)).mapToLong(r -> r.sourceRangeStart).min().orElseThrow());
             }
             return lowest;
         }
@@ -134,6 +116,15 @@ class Day5Test {
                 }
             }
             return seed;
+        }
+
+
+        public List<Range> compute(List<Range> ranges) {
+            List<Range> matchedRanges = new ArrayList<>();
+            for (Range range : ranges) {
+                matchedRanges.addAll(compute(range));
+            }
+            return matchedRanges;
         }
 
         public List<Range> compute(Range range) {
@@ -176,26 +167,38 @@ class Day5Test {
             List<Range> ranges = new ArrayList<>();
             long nextRangeStart = range.sourceRangeStart;
             long nextRangeEnd = range.sourceRangeEnd;
-            Range matchedRange;
+            Range matchedRange = null;
             if (nextRangeStart >= sourceRangeStart && nextRangeEnd < sourceRangeEnd) {
-                nextRangeStart+=offset;
-                nextRangeEnd+=offset;
-                matchedRange = new Range(nextRangeStart, nextRangeEnd);
+                matchedRange = new Range(nextRangeStart + offset, nextRangeEnd + offset);
                 return Pair.of(Optional.of(matchedRange), List.of());
             }
 
-            if (nextRangeStart < sourceRangeStart && nextRangeEnd < sourceRangeStart) {
+
+            if ((nextRangeStart < sourceRangeStart && nextRangeEnd < sourceRangeStart)
+                    || (nextRangeStart > sourceRangeEnd && nextRangeEnd > sourceRangeEnd)) {
+                // on est hors du range on garde le meme
                 ranges.add(new Range(nextRangeStart, nextRangeEnd));
             } else if(nextRangeStart < sourceRangeStart) {
-                ranges.add(new Range(nextRangeStart, range.sourceRangeStart));
-                ranges.add(new Range(range.sourceRangeStart, nextRangeEnd));
-            } else if (nextRangeStart < sourceRangeEnd && nextRangeEnd > sourceRangeEnd) {
-                ranges.add(new Range(nextRangeStart, range.sourceRangeEnd));
-                ranges.add(new Range(range.sourceRangeEnd, nextRangeEnd));
+                // le début est avant le range, on va en faire un premier sous range
+                ranges.add(new Range(nextRangeStart, sourceRangeStart));
+                if (nextRangeEnd >= sourceRangeEnd) {
+                    if (sourceRangeEnd != nextRangeEnd) {
+                        // la fin est après la fin du range, on va ajouter un second sous range
+                        ranges.add(new Range(sourceRangeEnd, nextRangeEnd));
+                    }
+                    // tout le reste match le range et on compute
+                    matchedRange = new Range(sourceRangeStart + offset, sourceRangeEnd + offset);
+                } else {
+                    // la fin est avant la fin du range, on applique l'offset
+                    matchedRange = new Range(sourceRangeStart + offset, nextRangeEnd + offset);
+                }
             } else {
-                ranges.add(new Range(nextRangeStart, nextRangeEnd));
+                if (nextRangeEnd > sourceRangeEnd) {
+                    ranges.add(new Range(sourceRangeEnd, nextRangeEnd));
+                }
+                matchedRange = new Range(nextRangeStart + offset, sourceRangeEnd + offset);
             }
-            return Pair.of(Optional.empty(), ranges);
+            return Pair.of(Optional.ofNullable(matchedRange), ranges);
         }
     }
 
