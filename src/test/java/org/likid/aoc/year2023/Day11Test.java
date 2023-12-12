@@ -37,8 +37,8 @@ class Day11Test {
     }
 
     @Test
-    void should_day10_ex1() {
-        System.out.println("day 10 ex 1");
+    void should_day11_ex1() {
+        System.out.println("day 11 ex 1");
         Universe universe = builder.build(2);
 
         long result = universe.calculateSumOfDistances();
@@ -49,8 +49,8 @@ class Day11Test {
     }
 
     @Test
-    void should_day10_ex2() {
-        System.out.println("day 10 ex 2");
+    void should_day11_ex2() {
+        System.out.println("day 11 ex 2");
         Universe universe = builder.build(1000000);
 
         long result = universe.calculateSumOfDistances();
