@@ -7,10 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.likid.aoc.util.Util;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static java.lang.String.join;
 import static java.util.Arrays.copyOf;
@@ -65,7 +62,7 @@ class Day12Test {
         assertThat(result).isEqualTo(6512849198636L);
     }
 
-    private static String repeat(String string, int times) {
+    private String repeat(String string, int times) {
         String[] strings = new String[times];
         Arrays.fill(strings, string);
         return join("?", strings);
@@ -80,7 +77,7 @@ class Day12Test {
         return dup;
     }
 
-    private long calculateArrangements(HashMap<Triple<Integer, Integer, Integer>, Long> sumsByTriplet, String springMap, int[] amounts, int left, int middle, int right) {
+    private long calculateArrangements(Map<Triple<Integer, Integer, Integer>, Long> sumsByTriplet, String springMap, int[] amounts, int left, int middle, int right) {
         Triple<Integer, Integer, Integer> currentTriplet = new ImmutableTriple<>(left, middle, right);
         if (sumsByTriplet.containsKey(currentTriplet)) {
             return sumsByTriplet.get(currentTriplet);
