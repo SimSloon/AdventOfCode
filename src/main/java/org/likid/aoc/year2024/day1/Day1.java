@@ -1,17 +1,18 @@
 package org.likid.aoc.year2024.day1;
 
-import org.likid.aoc.Day;
+import org.likid.aoc.util.AbstractDay;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class Day1 implements Day {
+public class Day1 extends AbstractDay<Long, Long> {
 
     private final long[] left;
     private final long[] right;
 
     public Day1(List<String> data) {
+        super(data);
         left = extractAndSort(data, 0);
         right = extractAndSort(data, 1);
     }
@@ -25,14 +26,14 @@ public class Day1 implements Day {
     }
 
     @Override
-    public long ex1() {
+    public Long ex1() {
         return IntStream.range(0, left.length)
                 .mapToLong(i -> Math.abs(left[i] - right[i]))
                 .sum();
     }
 
     @Override
-    public long ex2() {
+    public Long ex2() {
         return Arrays.stream(left)
                 .map(i1 -> i1 * Arrays.stream(right).filter(i2 -> i2 == i1).count())
                 .sum();

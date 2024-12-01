@@ -1,29 +1,27 @@
 package org.likid.aoc.year2024.day1;
 
-import org.likid.aoc.DayTest;
+import org.likid.aoc.util.DayTest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-class Day1Test implements DayTest<Day1> {
+class Day1Test implements DayTest<Day1, Long, Long> {
 
     @Override
-    public void verifyEx1Example(long result) {
-        assertThat(result).isEqualTo(11);
+    public Long ex1ExampleExpectedResult() {
+        return 11L;
     }
 
     @Override
-    public void verifyEx1Input(long result) {
-        assertThat(result).isEqualTo(1882714);
+    public Long ex1InputExpectedResult() {
+        return 1882714L;
     }
 
     @Override
-    public void verifyEx2Example(long result) {
-        assertThat(result).isEqualTo(31);
+    public Long ex2ExampleExpectedResult() {
+        return 31L;
     }
 
     @Override
-    public void verifyEx2Input(long result) {
-        assertThat(result).isEqualTo(19437052);
+    public Long ex2InputExpectedResult() {
+        return 19437052L;
     }
 
     @Override
