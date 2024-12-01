@@ -8,7 +8,6 @@ import org.likid.aoc.util.Util;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.LongStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,7 +19,7 @@ class Day5Test {
     public void map() throws IOException {
         List<String> data = Util.readFileAsString("classpath:year2023/day5/input");
 
-        ALMANAC = Almanac.from(Arrays.stream(data.get(0).split("seeds: ")[1].split(" ")).map(Long::parseLong).toList());
+        ALMANAC = Almanac.from(Arrays.stream(data.getFirst().split("seeds: ")[1].split(" ")).map(Long::parseLong).toList());
         Section currentSection = null;
         for (int i = 2; i < data.size(); i++) {
             String currentLine = data.get(i);

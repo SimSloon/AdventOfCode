@@ -4,16 +4,12 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.math3.util.ArithmeticUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.engine.support.hierarchical.Node;
 import org.likid.aoc.util.Util;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import static java.util.stream.Collectors.groupingBy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class Day8Test {
@@ -22,7 +18,7 @@ class Day8Test {
     @BeforeAll
     static void map() throws IOException {
         List<String> data = Util.readFileAsString("classpath:year2023/day8/input");
-        List<Direction> directions = Arrays.stream(data.get(0).split("")).map(Direction::from).toList();
+        List<Direction> directions = Arrays.stream(data.getFirst().split("")).map(Direction::from).toList();
         NETWORK = new Network(directions);
         for (int i = 2; i < data.size(); i++) {
             String[] line = data.get(i).split(" = ");

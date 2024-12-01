@@ -1,7 +1,5 @@
 package org.likid.aoc.year2023;
 
-import org.apache.commons.lang3.tuple.Pair;
-import org.apache.commons.math3.util.ArithmeticUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.likid.aoc.util.Util;
@@ -11,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
-import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -49,12 +46,10 @@ class Day9Test {
 
     static class History {
 
-        private final List<Long> history;
-
         TreeMap<Long, List<Long>> historyMap = new TreeMap<>();
 
         public History(String input) {
-            history = Arrays.stream(input.split(" ")).map(Long::parseLong).toList();
+            List<Long> history = Arrays.stream(input.split(" ")).map(Long::parseLong).toList();
             long counter = 0L;
             List<Long> currentHistory = new ArrayList<>(history);
             historyMap.put(counter, currentHistory);

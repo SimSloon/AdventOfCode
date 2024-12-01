@@ -8,9 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.LongStream;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.likid.aoc.util.Util;
 
@@ -58,8 +56,8 @@ class Day6Test {
     }
 
     static class Race {
-        private long time;
-        private long distance;
+        private final long time;
+        private final long distance;
 
         public Race(long time, long distance) {
             this.time = time;

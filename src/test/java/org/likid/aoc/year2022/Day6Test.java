@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.likid.aoc.util.Util;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,7 +15,7 @@ class Day6Test {
 
     @BeforeAll
     static void map() throws IOException {
-        dataStream = Util.readFileAsString("classpath:year2022/day6/input").get(0);
+        dataStream = Util.readFileAsString("classpath:year2022/day6/input").getFirst();
     }
 
     @Test
