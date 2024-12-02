@@ -6,17 +6,20 @@ import java.util.List;
 
 public class Day2 extends AbstractDay<Long, Long> {
 
+    private final List<Report> reports;
+
     public Day2(List<String> data) {
         super(data);
+        this.reports = data.stream().map(Report::new).toList();
     }
 
     @Override
     public Long ex1() {
-        return 0L;
+        return reports.stream().filter(Report::isSafe).count();
     }
 
     @Override
     public Long ex2() {
-        return 0L;
+        return reports.stream().filter(report -> report.isSafeWithTolerance(-1)).count();
     }
 }
