@@ -5,23 +5,28 @@ import org.likid.aoc.util.DayTest;
 public class Day3Test implements DayTest<Day3, Long, Long> {
 
     @Override
+    public String example2DataSetFile() {
+        return "example2";
+    }
+
+    @Override
     public Long ex1ExampleExpectedResult() {
-        return 0L;
+        return 161L;
     }
 
     @Override
     public Long ex1InputExpectedResult() {
-        return 0L;
+        return 167090022L;
     }
 
     @Override
     public Long ex2ExampleExpectedResult() {
-        return 0L;
+        return 48L;
     }
 
     @Override
     public Long ex2InputExpectedResult() {
-        return 0L;
+        return 89823704L;
     }
 
     @Override

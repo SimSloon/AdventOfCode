@@ -20,6 +20,6 @@ public class Day2 extends AbstractDay<Long, Long> {
 
     @Override
     public Long ex2() {
-        return reports.stream().filter(report -> report.isSafeWithTolerance(-1)).count();
+        return reports.stream().filter(Report::isSafeWithTolerance).count();
     }
 }

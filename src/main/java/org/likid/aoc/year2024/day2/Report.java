@@ -13,6 +13,10 @@ public class Report {
     }
 
     public boolean isSafe() {
+        return isSafe(levels);
+    }
+
+    public boolean isSafe(List<Integer> levels) {
         int lastLevel = levels.getFirst();
         boolean increase = levels.get(1) > lastLevel;
         for (int i = 1; i < levels.size(); i++) {
@@ -30,35 +34,18 @@ public class Report {
         return true;
     }
 
-    public boolean isSafeWithTolerance(int depth) {
-        List<Integer> adaptedLevels;
-        if (depth == -1) {
-            adaptedLevels = new ArrayList<>(levels);
-        } else {
-            adaptedLevels = new ArrayList<>();
-            for (int i = 0; i < levels.size(); i++) {
-                if (i != depth) {
-                    adaptedLevels.add(levels.get(i));
-                }
+    public boolean isSafeWithTolerance() {
+        if (isSafe()) {
+            return true;
+        }
+
+        for (int i = 0; i < levels.size(); i++) {
+            List<Integer> adaptedLevels = new ArrayList<>(levels);
+            adaptedLevels.remove(i);
+            if (isSafe(adaptedLevels)) {
+                return true;
             }
         }
-        int lastLevel = adaptedLevels.getFirst();
-        boolean increase = adaptedLevels.get(1) > lastLevel;
-        for (int i = 1; i < adaptedLevels.size(); i++) {
-            if (depth > adaptedLevels.size()) {
-                return false;
-            }
-            if (adaptedLevels.get(i) > lastLevel && !increase) {
-                return isSafeWithTolerance(++depth);
-            } else if (adaptedLevels.get(i) < lastLevel && increase) {
-                return isSafeWithTolerance(++depth);
-            }
-            int diff = Math.abs(adaptedLevels.get(i) - lastLevel);
-            if (diff < 1 || diff > 3) {
-                return isSafeWithTolerance(++depth);
-            }
-            lastLevel = adaptedLevels.get(i);
-        }
-        return true;
+        return false;
     }
 }
