@@ -24,17 +24,6 @@ public class Util {
         }
     }
 
-    public static List<Long> readFileAsLongs(String filePath) {
-        try {
-            File file = ResourceUtils.getFile(filePath);
-            try (BufferedReader reader = Files.newBufferedReader(file.toPath())) {
-                return reader.lines().map(Long::parseLong).collect(Collectors.toList());
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public static long sum(String number, String number2) {
         return BigDecimal.valueOf(Long.parseLong(number)).add(BigDecimal.valueOf(Long.parseLong(number2))).longValue();
     }
