@@ -47,6 +47,6 @@ public record Page(List<Integer> updates, List<Rule> rules) {
     }
 
     private void swap(Rule rule) {
-        Collections.swap(updates, rule.primary(), rule.secondary());
+        Collections.swap(updates, updates.indexOf(rule.primary()), updates.indexOf(rule.secondary()));
     }
 }
