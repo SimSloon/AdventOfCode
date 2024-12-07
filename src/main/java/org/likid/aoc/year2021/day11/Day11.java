@@ -12,11 +12,27 @@ public class Day11 extends AbstractDay<Long, Long> {
 
     @Override
     public Long ex1() {
-        return 0L;
+        Grid grid = new Grid(data);
+
+        long totalFlash = 0;
+        for (int step = 1; step <= 100; step++) {
+            grid.increaseEnergy();
+            totalFlash += grid.flash();
+        }
+
+        return totalFlash;
     }
 
     @Override
     public Long ex2() {
-        return 0L;
+        Grid grid = new Grid(data);
+
+        long step = 0;
+        while (!grid.isFullOfFlashes()) {
+            grid.increaseEnergy();
+            grid.flash();
+            step++;
+        }
+        return step;
     }
 }

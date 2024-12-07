@@ -45,10 +45,17 @@ public record Equation(Long result, List<Long> operands) {
             switch (operators[i]) {
                 case "+" -> result += operands.get(i + 1);
                 case "*" -> result *= operands.get(i + 1);
-                case "||" -> result = Long.parseLong(result + "" + operands.get(i + 1));
+                case "||" -> result = concat(result, operands.get(i + 1), 10);
             }
         }
 
         return result;
+    }
+
+    private long concat(long a, long b, long max) {
+        if (b < max) {
+            return a * max + b;
+        }
+        return concat(a, b, max * 10);
     }
 }
