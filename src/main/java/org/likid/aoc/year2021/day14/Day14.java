@@ -12,11 +12,17 @@ public class Day14 extends AbstractDay<Long, Long> {
 
     @Override
     public Long ex1() {
-        return 0L;
+        Polymere polymere = new Polymere(data);
+        for (int i = 0; i < 10; i++) {
+            polymere.computeForPart1();
+        }
+        return polymere.getPart1();
     }
 
     @Override
     public Long ex2() {
-        return 0L;
+        Polymere polymere = new Polymere(data);
+        polymere.computeForPart2();
+        return polymere.getPart2();
     }
 }
