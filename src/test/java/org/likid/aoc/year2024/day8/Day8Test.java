@@ -1,31 +1,31 @@
-package org.likid.aoc.year2024.day7;
+package org.likid.aoc.year2024.day8;
 
 import org.likid.aoc.util.DayTest;
 
-public class Day7Test implements DayTest<Day7, Long, Long> {
+public class Day8Test implements DayTest<Day8, Long, Long> {
 
     @Override
     public Long ex1ExampleExpectedResult() {
-        return 3749L;
+        return 0L;
     }
 
     @Override
     public Long ex1InputExpectedResult() {
-        return 945512582195L;
+        return 0L;
     }
 
     @Override
     public Long ex2ExampleExpectedResult() {
-        return 11387L;
+        return 0L;
     }
 
     @Override
     public Long ex2InputExpectedResult() {
-        return 271691107779347L;
+        return 0L;
     }
 
     @Override
-    public Class<Day7> getDayClass() {
-        return Day7.class;
+    public Class<Day8> getDayClass() {
+        return Day8.class;
     }
 }

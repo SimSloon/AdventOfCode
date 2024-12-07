@@ -55,14 +55,13 @@ public record Grid(Map<Coord, Item> map,
     }
 
     public List<Grid> generateAlternatives() {
-        Map<Coord, Item> initMap = Map.copyOf(map());
         return visitAllPositions()
                 .visited()
                 .stream()
                 .filter(c -> !currentPosition.equals(c))
                 .parallel()
                 .map(coord -> {
-                    Map<Coord, Item> newMap = new HashMap<>(Map.copyOf(initMap));
+                    Map<Coord, Item> newMap = new HashMap<>(Map.copyOf(map));
                     newMap.put(coord, new Item.Obstruction());
                     return new Grid(newMap, new HashSet<>(visited), new Coord(currentPosition.x(), currentPosition.y()), maxX, maxY);
                 })

@@ -27,7 +27,7 @@ public sealed interface Item permits Item.Gard, Item.Obstruction {
         }
 
         public Gard turn() {
-            return new Gard(direction.turn());
+            return new Gard(direction.next());
         }
     }
 
@@ -43,7 +43,7 @@ public sealed interface Item permits Item.Gard, Item.Obstruction {
             };
         }
 
-        public Direction turn() {
+        public Direction next() {
             return switch (this) {
                 case NORTH -> EAST;
                 case EAST -> SOUTH;
