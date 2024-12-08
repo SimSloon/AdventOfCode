@@ -2,7 +2,7 @@ package org.likid.aoc.year2024.day5;
 
 import org.likid.aoc.util.AbstractDay;
 
-import java.util.*;
+import java.util.List;
 
 public class Day5 extends AbstractDay<Long, Long> {
 

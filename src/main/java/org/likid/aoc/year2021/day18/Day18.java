@@ -48,7 +48,6 @@ public class Day18 extends AbstractDay<Long, Long> {
     }
 
 
-
     private SnailFish getSnailFish(List<String> inputs, int i) {
         String line = inputs.get(i);
         position = 0;

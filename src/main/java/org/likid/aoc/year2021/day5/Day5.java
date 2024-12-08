@@ -2,11 +2,7 @@ package org.likid.aoc.year2021.day5;
 
 import org.likid.aoc.util.AbstractDay;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.stream.LongStream;
 
 public class Day5 extends AbstractDay<Long, Long> {
     private final List<Vent> vents;

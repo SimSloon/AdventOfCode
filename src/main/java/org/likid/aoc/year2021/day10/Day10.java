@@ -44,18 +44,6 @@ public class Day10 extends AbstractDay<Long, Long> {
         Collections.sort(incompleteScores);
     }
 
-    @Override
-    public Long ex1() {
-        return Long.valueOf(badSyntaxes.entrySet().stream()
-                .map((e) -> e.getValue() * getValue(e.getKey()))
-                .reduce(0, Integer::sum));
-    }
-
-    @Override
-    public Long ex2() {
-        return incompleteScores.get(incompleteScores.size() / 2);
-    }
-
     private static Integer getValue(Character key) {
         return switch (key) {
             case '}' -> 1197;
@@ -78,5 +66,17 @@ public class Day10 extends AbstractDay<Long, Long> {
             case '<' -> currentChar == '>';
             default -> false;
         };
+    }
+
+    @Override
+    public Long ex1() {
+        return Long.valueOf(badSyntaxes.entrySet().stream()
+                .map((e) -> e.getValue() * getValue(e.getKey()))
+                .reduce(0, Integer::sum));
+    }
+
+    @Override
+    public Long ex2() {
+        return incompleteScores.get(incompleteScores.size() / 2);
     }
 }

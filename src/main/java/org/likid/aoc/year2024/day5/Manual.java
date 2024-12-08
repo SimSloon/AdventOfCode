@@ -6,21 +6,6 @@ import java.util.List;
 
 public record Manual(List<Page> pages, List<Rule> rules) {
 
-    public Long sumUpFollowingRulesMiddlePages() {
-        return pages.stream()
-                .filter(Page::followsTheRules)
-                .mapToLong(Page::getMid)
-                .sum();
-    }
-
-    public Long repairViolatedRulesAndSumUpMiddlePages() {
-        return pages.parallelStream()
-                .filter(Page::violatesTheRules)
-                .map(Page::removeViolations)
-                .mapToLong(Page::getMid)
-                .sum();
-    }
-
     public static Manual from(List<String> data) {
         List<Rule> rules = new ArrayList<>();
         List<Page> pages = new ArrayList<>();
@@ -40,5 +25,20 @@ public record Manual(List<Page> pages, List<Rule> rules) {
             }
         }
         return new Manual(pages, rules);
+    }
+
+    public Long sumUpFollowingRulesMiddlePages() {
+        return pages.stream()
+                .filter(Page::followsTheRules)
+                .mapToLong(Page::getMid)
+                .sum();
+    }
+
+    public Long repairViolatedRulesAndSumUpMiddlePages() {
+        return pages.parallelStream()
+                .filter(Page::violatesTheRules)
+                .map(Page::removeViolations)
+                .mapToLong(Page::getMid)
+                .sum();
     }
 }

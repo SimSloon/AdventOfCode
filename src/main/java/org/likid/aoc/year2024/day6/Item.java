@@ -4,6 +4,28 @@ public sealed interface Item permits Item.Gard, Item.Obstruction {
 
     boolean isBlocking();
 
+    enum Direction {
+        NORTH, EAST, SOUTH, WEST;
+
+        public static Direction from(char character) {
+            return switch (character) {
+                case '^' -> NORTH;
+                case 'v' -> SOUTH;
+                case '>' -> EAST;
+                default -> WEST;
+            };
+        }
+
+        public Direction next() {
+            return switch (this) {
+                case NORTH -> EAST;
+                case EAST -> SOUTH;
+                case SOUTH -> WEST;
+                case WEST -> NORTH;
+            };
+        }
+    }
+
     record Obstruction() implements Item {
         @Override
         public boolean isBlocking() {
@@ -28,28 +50,6 @@ public sealed interface Item permits Item.Gard, Item.Obstruction {
 
         public Gard turn() {
             return new Gard(direction.next());
-        }
-    }
-
-    enum Direction {
-        NORTH, EAST, SOUTH, WEST;
-
-        public static Direction from(char character) {
-            return switch (character) {
-                case '^' -> NORTH;
-                case 'v' -> SOUTH;
-                case '>' -> EAST;
-                default -> WEST;
-            };
-        }
-
-        public Direction next() {
-            return switch (this) {
-                case NORTH -> EAST;
-                case EAST -> SOUTH;
-                case SOUTH -> WEST;
-                case WEST -> NORTH;
-            };
         }
     }
 

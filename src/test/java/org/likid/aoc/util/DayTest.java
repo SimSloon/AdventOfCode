@@ -37,7 +37,7 @@ public interface DayTest<T extends Day<U, V>, U, V> {
 
     private void validateEx(String file, int exNumber, String type, U expectedEx1, V expectedEx2) {
         Day<?, ?> day = dataSetToDay(file);
-        System.out.println(getDayClass().getName() + " ex " + exNumber + " " + type);
+        System.out.println(getDayClass().getSimpleName() + " ex " + exNumber + " " + type);
 
         Object result;
         if (exNumber == 1) {

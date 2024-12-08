@@ -1,7 +1,6 @@
 package org.likid.aoc.year2021.day7;
 
 import org.likid.aoc.util.AbstractDay;
-import org.likid.aoc.util.Util;
 
 import java.util.Arrays;
 import java.util.HashMap;

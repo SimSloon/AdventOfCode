@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.likid.aoc.util.AbstractDay;
 import org.likid.aoc.util.Util;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.IntStream;
 
 import static java.lang.Integer.parseInt;

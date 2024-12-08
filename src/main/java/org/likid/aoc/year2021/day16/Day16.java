@@ -13,6 +13,7 @@ import static org.likid.aoc.year2021.day16.Packet.convertBinaryToDecimal;
 public class Day16 extends AbstractDay<Long, Long> {
 
     private final List<Packet> packets;
+
     public Day16(List<String> data) {
         super(data);
         String binaries = Arrays.stream(data.getFirst().split(""))
