@@ -6,17 +6,20 @@ import java.util.List;
 
 public class Day8 extends AbstractDay<Long, Long> {
 
+    private final Grid grid;
+
     public Day8(List<String> data) {
         super(data);
+        grid = Grid.from(data);
     }
 
     @Override
     public Long ex1() {
-        return 0L;
+        return grid.computeAntinodes().count();
     }
 
     @Override
     public Long ex2() {
-        return 0L;
+        return grid.computeAllAntinodes().count();
     }
 }

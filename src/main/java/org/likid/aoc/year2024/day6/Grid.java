@@ -4,11 +4,11 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
 
-public record Grid(Map<Coord, Item> map,
-                   Set<Coord> visited,
-                   Coord currentPosition,
-                   int maxX,
-                   int maxY) {
+record Grid(Map<Coord, Item> map,
+            Set<Coord> visited,
+            Coord currentPosition,
+            int maxX,
+            int maxY) {
 
     public static Grid from(List<String> data) {
         Map<Coord, Item> map = new HashMap<>();
