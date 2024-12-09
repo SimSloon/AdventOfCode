@@ -12,11 +12,15 @@ public class Day9 extends AbstractDay<Long, Long> {
 
     @Override
     public Long ex1() {
-        return 0L;
+        DiskCompactor diskCompactor = new DiskCompactor(data.getFirst());
+        diskCompactor.compact();
+        return diskCompactor.checksum();
     }
 
     @Override
     public Long ex2() {
-        return 0L;
+        DiskCompactor diskCompactor = new DiskCompactor(data.getFirst());
+        diskCompactor.compactWholeFiles();
+        return diskCompactor.checksum();
     }
 }
