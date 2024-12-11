@@ -28,25 +28,21 @@ public record TopographicMap(Map<Coord, Integer> map, Set<TrailHead> trailHeads)
                 .toList();
 
         for (Coord start : starts) {
-            List<Coord> totalPaths = exploreTrail(start, new HashSet<>());
+            List<Coord> totalPaths = exploreTrail(start);
             trailHeads.add(new TrailHead(start, new HashSet<>(totalPaths).size(), totalPaths.size()));
         }
         return new TopographicMap(map, trailHeads);
     }
 
-    private List<Coord> exploreTrail(Coord current, Set<Coord> visited) {
+    private List<Coord> exploreTrail(Coord current) {
         List<Coord> next = new ArrayList<>();
-        if (visited.contains(current)) {
-            return next;
-        }
-        visited.add(current);
         Integer currentHeight = map.get(current);
         if (currentHeight == 9) {
             next.add(current);
             return next;
         }
         for (Coord neighbour : getNeighbours(current)) {
-            next.addAll(exploreTrail(neighbour, new HashSet<>(visited)));
+            next.addAll(exploreTrail(neighbour));
         }
         return next;
     }
